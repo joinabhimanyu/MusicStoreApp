@@ -1,0 +1,28 @@
+﻿@model MusicStoreApp.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Album</legend>
+    <div>
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+     <div>
+        @Html.DisplayFor(model => model.Category)
+    </div>
+
+     <div>
+        @Html.DisplayFor(model => model.Price)
+    </div>
+
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ProductID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

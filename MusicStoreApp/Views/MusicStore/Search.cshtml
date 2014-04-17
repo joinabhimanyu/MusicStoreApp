@@ -1,0 +1,74 @@
+﻿@using System.Web.Mvc
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.js")"></script>
+
+<div id="search_panel">
+
+    @using (Ajax.BeginForm("SearchResult", "MusicStore", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "search_result", HttpMethod = "GET" }))
+    {
+        <p id="block_genre">
+             @Html.Label(String.Empty,"Genre")
+        
+             @Html.DropDownList("Genres", String.Empty)
+
+             <input type="button" class="buttons" id="add_artist" name="add_artist" value="Add Condition" />
+
+             <input type="submit" value="search album" /> <br /><br />
+
+        </p>
+     
+        <p id="block_artist">
+             @Html.Label(String.Empty,"Artist")
+             <input type="text" id="artist" name="artist" style="width:60px" />
+             
+             <input type="button" id="add_title" name="add_title" value="Add Condition" />
+
+        </p>
+        
+        <p id="block_title">
+             @Html.Label(String.Empty,"Title")
+             <input type="text" id="title" name="title" style="width:60px" />
+
+              <input type="button" id="add_price" name="add_price" value="Add Condition" />
+
+        </p>
+        
+        <p id="block_price">
+             @Html.Label(String.Empty,"Price")
+             <input type="text" id="price" name="price" style="width:60px" />
+        </p>     
+       
+    }
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#block_genre").show();
+        $("#block_artist").hide();
+        $("#block_title").hide();
+        $("#block_price").hide();
+
+        $("#add_artist").click(function () {
+
+            $("#block_artist").show();
+
+        });
+
+        $("#add_title").click(function () {
+
+            $("#block_title").show();
+
+        });
+
+        $("#add_price").click(function () {
+
+            $("#block_price").show();
+
+        });
+
+    });
+
+</script>

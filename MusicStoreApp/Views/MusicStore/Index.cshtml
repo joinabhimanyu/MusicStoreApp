@@ -1,0 +1,153 @@
+﻿@model IEnumerable<MusicStoreApp.Models.Album>
+
+@{
+    ViewBag.Title = "Index";
+}
+@section featured {
+     <section class="featured">
+         <div class="content-wrapper">
+            <div class="float-left">
+            <nav>
+               <ul id="menu">     
+                  <li>@Html.ActionLink("Create New", "Create")</li>
+                  <li>@Ajax.ActionLink("Search","Search","MusicStore",new AjaxOptions{InsertionMode=InsertionMode.Replace,UpdateTargetId="search_genre",HttpMethod="GET"})</li>
+               </ul>
+            </nav>
+            </div>
+        </div>
+     </section>
+    }
+<body>
+<div id="body">
+ <table id="data_table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Artist.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AlbumArtUrl)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Artist.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AlbumArtUrl)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AlbumId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AlbumId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AlbumId })
+        </td>
+    </tr>
+}
+
+</table>
+
+ <table id="second_table">
+    <tr>
+        <td>
+            <div id="search_genre">
+
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="search_result">
+
+            </div>
+        </td>
+    </tr>
+ </table>
+
+ <table>
+    <tr>
+        <td>
+        <input type="text" id="txtName" value="Enter something" />
+        </td>
+        <td>
+        <input type="button" id="btnSearch" value="Search Name" />
+        </td>
+    </tr>
+    <tr>
+         <td>
+         <label id="SearchResult" />
+         </td>
+    </tr>
+ </table>
+ 
+ </div>
+
+</body>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/DataTables-1.8.2/media/js/jquery.dataTables.js")"></script>
+
+<script type="text/javascript">
+   
+    $(document).ready(function () {
+
+        $("#btnSearch").click(function () {
+
+            var txtVal = $("#txtName").val();
+            var param = {name:txtVal};
+            $.ajax({
+
+                url: '/MusicStore/SearchName/' + txtVal,
+                type: 'GET',
+                dataType:'json',
+                success: function (result) {
+
+                    $("#SearchResult").html(result);
+                },
+                error: function () {
+                    $("#SearchResult").html("error from view");
+                }
+              
+            });
+
+        });
+
+        $("#txtName").click(function () {
+
+            $("#txtName").attr("value", "");
+
+        });
+
+        $("#txtName").focusout(function () {
+            if ($("#txtName").val() == "") {
+                $("#txtName").attr("value", "Enter Something");
+            }
+        });
+
+    });
+
+</script>
+

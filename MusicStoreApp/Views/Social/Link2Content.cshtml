@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Link2Content";
+    Layout = "~/Views/Shared/_LayoutSocial.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+            <h4>This is link 2 content</h4>
+        </div>
+        <div class="span10">
+            <div class="row-fluid">
+            <div ng-app="ngTwitter">
+
+                <div ng-controller="TimelineController">
+
+                    <table class="table table-stripped span6">
+                        <tr ng-repeat="item in tweets">
+                            <td>
+                                <img src="{{item.imgUrl}}" style="height:100px;width:100px;" />
+                            </td>
+                            <td>
+                                <strong>{{item.Name}}</strong><br />
+                                {{item.Category}}<br />
+                                {{item.Price}}
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+           </div>
+        </div>
+    </div>
+</div>
+

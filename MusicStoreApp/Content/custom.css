@@ -1,0 +1,37 @@
+﻿@keyframes mymove {
+    from {
+        display:none;
+    }
+
+    to {
+        display:inline;
+    }
+}
+
+@-moz-keyframes mymove {
+     from {
+        display:none;
+    }
+
+    to {
+        display:inline;
+    }
+}
+
+@-webkit-keyframes mymove {
+     from {
+        display:none;
+    }
+
+    to {
+        display:inline;
+    }
+}
+
+
+ .text-description {
+        -moz-animation: mymove 5s ease 0 1 normal;
+        -o-animation: mymove 5s ease 0 1 normal;
+        -webkit-animation: mymove 5s ease 0 1 normal;
+        animation: mymove 5s ease 0 1 normal;
+    }        

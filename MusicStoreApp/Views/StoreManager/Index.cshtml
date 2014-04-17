@@ -1,0 +1,171 @@
+﻿@model IEnumerable<MusicStoreApp.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<table>
+    <tr>
+      <th>
+          @Html.DisplayNameFor(model => model.First().Name)
+      </th>   
+        <th>
+          @Html.DisplayNameFor(model => model.First().Category)
+      </th>   
+        <th>
+          @Html.DisplayNameFor(model => model.First().Price)
+      </th>    
+    </tr>
+
+  @foreach (var item in Model)
+  {
+      <tr>
+          <td>
+              @Html.DisplayFor(model => item.Name)
+          </td>
+           <td>
+              @Html.DisplayFor(model => item.Category)
+          </td>
+           <td>
+              @Html.DisplayFor(model => item.Price)
+          </td>
+
+           <td>
+              @Html.DisplayFor(model => item.ProductID)
+          </td>
+
+          <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ProductID }) 
+          </td>
+          <td>
+              @Html.ActionLink("Details", "Details", new { id=item.ProductID }) 
+          </td>
+          <td>
+               @Html.ActionLink("Delete", "Delete", new { id=item.ProductID })
+          </td>
+      </tr>
+  }
+     
+
+</table><br />
+
+<div id="wcf-section">
+    <p>
+        <input type="text" id="wcfcall_param" value="Enter something" />
+    <input type="button" class="buttons" id="btn_wcfcall" value="Call WCF" />
+        <input type="button" class="buttons" id="btn_wcf" value="Call WCF 2" />
+    </p>
+    <p>
+        <label id="wcf_result" />
+    </p>
+
+    <table id="wcf_data" class="editableTable">
+      
+    </table>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/Style.css" />
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/DataTables-1.8.2/media/js/jquery.dataTables.js")"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#wcfcall_param").click(function () {
+            $("#wcfcall_param").attr("value", "");
+        });
+
+        $("#wcfcall_param").focusout(function () {
+            if ($("#wcfcall_param").val() == "") {
+                $("#wcfcall_param").attr("value", "Enter something");         
+            }
+            $("#wcf_result").html("");
+        });
+
+        $("#btn_wcfcall").click(function () {
+            var txtVal = $("#wcfcall_param").val();
+
+            $.ajax({
+
+                url: "http://localhost/DemoWCFforMVC/DemoService.svc/GetData" + "(" + txtVal + ")",
+                type: "GET",
+                dataType: "json",
+                success: function (GetDataResponse) {
+                    $("#wcf_result").html(GetDataResponse.GetDataResult);
+                },
+                error: function () {
+                    alert("error from view");
+                }
+
+            });
+
+        });
+
+        $("#btn_wcf").click(function () {
+            
+            $.ajax({
+
+                url: "http://localhost/DemoWCFforMVC/DemoService.svc/GetDtls",
+                type: "GET",
+                dataType: "json",
+                success: function (GetDtlsResponse) {
+                    var result=GetDtlsResponse
+                 
+                    $("#wcf_data").append("<thead><tr><th>First Name</th><th>Last Name</th><th>Address</th></tr></thead><tbody></tbody>");
+
+                    $.each(result.GetDtlsResult, function (i) {
+
+                        $("#wcf_data tbody").append('<tr><td>' + result.GetDtlsResult[i].firstName + '</td><td>' + result.GetDtlsResult[i].lastName + '</td><td>' + result.GetDtlsResult[i].address + '</td></tr>');
+                    });
+                },
+                error: function () {
+                    alert("error from view");
+                }
+            });
+        });
+
+    });
+
+    $(function () {
+
+        $("#wcf_data tbody td").dblclick(function () {
+
+            var originalContent = $(this).text();
+
+            $(this).addClass("cellEditing");
+            $(this).html("<input type='text' value='" + originalContent + "'/>");
+            $(this).children().first().focus();
+
+            $(this).children().first().keypress(function (e) {
+                if (e.which == 13) {
+                    var newContent = $(this).val();
+                    $(this).parent().text(newContent);
+                    $(this).parent().removeClass("cellEditing");
+                }
+            });
+
+            $(this).children().first().blur(function () {
+
+                $(this).parent().text(originalContent);
+                $(this).parent().removeClass("cellEditing");
+            });
+
+        });
+
+        $("#wcf_data tbody td").click(function () {
+            var content = $(this).text();
+            alert(content);
+        });
+
+    });
+
+</script>

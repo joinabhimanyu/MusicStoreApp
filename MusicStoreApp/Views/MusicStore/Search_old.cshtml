@@ -1,0 +1,117 @@
+﻿@model MusicStoreApp.Models.Album
+@using System.Web.Mvc
+
+<div id="search_panel">
+
+  @using (Ajax.BeginForm("SearchResult", "StoreManager", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "search_result",HttpMethod="GET" }))
+  {
+      
+      <input type="checkbox" id="chkGenre" />
+      <input type="checkbox" id="chkArtist" />
+      <input type="checkbox" id="chkTitle" />
+      <input type="checkbox" id="Price" />
+      
+      <input type="text" id="gname" name="genre_name" style="width:50px" />
+      <input type="text" id="aname" name="artist_name" style="width:50px" />
+      <input type="text" id="title" name="title" style="width:50px" />
+      <input type="text" id="price" name="price" style="width:50px" />
+      
+      <input type="submit" value="search album" /> 
+  }
+    
+</div> 
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.js")"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#gname").attr("readonly", true);
+        $("#aname").attr("readonly", true);
+        $("#title").attr('readonly', true);
+        $("#price").attr('readonly', true);
+
+        $("#chkGenre").click(function () {
+            genre_checked();
+        });
+
+        $("#chkArtist").click(function () {
+            artist_checked();
+        });
+
+        $("#chkTitle").click(function () {
+            title_checked();
+        });
+
+
+        $("#Price").click(function () {
+            price_checked();
+        });
+
+        function genre_checked() {
+            if ($("#chkGenre").attr("checked") == "checked") {
+                $("#gname").attr("readonly", false);
+                $("#aname").attr("readonly", true);
+                $("#title").attr('readonly', true);
+                $("#price").attr('readonly', true);
+            }
+            else {
+                $("#gname").attr("value","");
+                $("#gname").attr("readonly", true);
+                $("#aname").attr("readonly", true);
+                $("#title").attr('readonly', true);
+                $("#price").attr('readonly', true);
+            }
+        }
+
+        function artist_checked() {
+            if ($("#chkArtist").attr("checked") == "checked") {
+                $("#gname").attr("readonly", true);
+                $("#aname").attr("readonly", false);
+                $("#title").attr('readonly', true);
+                $("#price").attr('readonly', true);
+            }
+            else {
+                $("#aname").attr("value", "");
+                $("#gname").attr("readonly", true);
+                $("#aname").attr("readonly", true);
+                $("#title").attr('readonly', true);
+                $("#price").attr('readonly', true);
+            }
+        }
+
+        function title_checked() {
+            if ($("#chkTitle").attr("checked") == "checked") {
+                $("#gname").attr("readonly", true);
+                $("#aname").attr("readonly", true);
+                $("#title").attr('readonly', false);
+                $("#price").attr('readonly', true);
+            }
+            else {
+                $("#title").attr("value", "");
+                $("#gname").attr("readonly", true);
+                $("#aname").attr("readonly", true);
+                $("#title").attr('readonly', true);
+                $("#price").attr('readonly', true);
+            }
+        }
+
+        function price_checked() {
+            if ($("#Price").attr("checked") == "checked") {
+                $("#gname").attr("readonly", true);
+                $("#aname").attr("readonly", true);
+                $("#title").attr('readonly', true);
+                $("#price").attr('readonly', false);
+            }
+            else {
+                $("#price").attr("value", "");
+                $("#gname").attr("readonly", true);
+                $("#aname").attr("readonly", true);
+                $("#title").attr('readonly', true);
+                $("#price").attr('readonly', true);
+            }
+        }
+
+    });
+
+</script>

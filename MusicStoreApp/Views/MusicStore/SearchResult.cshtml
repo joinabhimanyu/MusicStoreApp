@@ -1,0 +1,27 @@
+﻿@model IEnumerable<MusicStoreApp.Models.Album>
+<div id="searchresults">
+<table>
+    @foreach (var item in Model)
+    {
+        <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre.Name)
+        </td>
+        <td>
+             @Html.DisplayFor(modelItem => item.Artist.Name)
+        </td>
+        <td>
+             @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+             @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+             @Html.DisplayFor(modelItem => item.AlbumArtUrl)
+        </td>
+    </tr>
+    }
+    
+</table>
+</div>
+
